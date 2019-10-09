@@ -5,32 +5,35 @@ import Navbar from "./component/Navbar";
 import Search from './component/Search';
 import axios from 'axios';
 
+
 export default class App extends Component {
 
-  state={
-    search : '',
+  state = {
+    loading: false,
     users: []
   }
 
-  onChangehandler = (e) =>{
-    this.setState({ [e.target.name]: e.target.value})
-
+  searchUsers = async (text) =>{
+    this.setState({ loading: true });
+    const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    this.setState({ users: res.data.items, loading: false });
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
+    this.setState({ loading: true });
     const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-    console.log(process.env.REACT_APP_GITHUB_CLIENT_ID);
-    this.setState({ users: res.data});
+    this.setState({ users: res.data, loading: false});
   }
 
   render() {
+
     return (
       <div className="App">
         <Navbar />
-        <Search searchvalue={this.state.search} onChangehandler={this.onChangehandler}/>
         <div className="container">
+          <Search searchUsers={this.searchUsers} />
           <div className="row">
-            <User users={this.state.users}/>           
+            <User users={this.state.users} loading={this.state.loading}/>
           </div>
         </div>
       </div>
@@ -40,7 +43,7 @@ export default class App extends Component {
 
 
 
-  
+
 
 
 
