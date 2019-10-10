@@ -3,3 +3,12 @@
   max-height: 120px;
   max-width: 100px;
 }
+
+.spinner{
+  max-width: 150px;
+  max-width: 150px;
+}
+
+ .app-height{
+  min-height: 95vh;
+}

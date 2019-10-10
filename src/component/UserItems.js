@@ -1,7 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function UserItems(props) {
-    const { html_url, avatar_url, login } = props.user;
+    const { avatar_url, login } = props.user;
     return (
         <div className="col-sm-4 mt-3 text-center">
             <div className="card card-body">
@@ -12,7 +13,7 @@ function UserItems(props) {
                     </div>
                     <div className="col-sm-6">                      
                         <p className="lead">{login}</p>
-                        <a className="btn btn-danger" href={html_url}>View Profile</a>
+                        <Link className="btn btn-danger" to={`/user/${login}`}>View Profile</Link>
                     </div>
 
                 </div>
